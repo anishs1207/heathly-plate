@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String             @id @default(uuid())
+  email               String             @unique
+  name                String
+  age                 Int
+  goal                Goal
+  activityLevel       ActivityLevel
+  targetWeight        Float
+  height              Float?
+  workoutCommitment   Int
+  calorieRequirement  Float
+  proteinRequirement  Float
+  dietaryPreferences  String[]
+  dietaryRestrictions String[]
+  preferredCuisines   String[]
+  recipes             Recipe[]           @relation("UserRecipes")
+  MealPlan            MealPlan[]
+  PersonalList        PersonalListItem[]
+  // added todo generate again here
+  credits             BigInt             @default(10)
+  tierPlan            Plans              @default(FREE)
+}
+
+enum Plans {
+  FREE
+  PRO
+  PREMIUM
+}
+
+model PersonalListItem {
+  id             String   @id @default(uuid())
+  ingrediantName String
+  tags           DatePlan
+  date           DateTime @default(now())
+  mealType       MealType
+  completed      Boolean  @default(false)
+  User           User?    @relation(fields: [userId], references: [id])
+  userId         String?
+}
+
+model Recipe {
+  id            String     @id @default(uuid())
+  date          DateTime   @default(now())
+  title         String
+  time          Int
+  description   String
+  calories_kcal Int
+  protein_g     Float
+  ingredients   String[]
+  mealType      MealType
+  steps         String[]
+  skillLevel    SkillLevel
+  cuisine       String[]
+  keywords      String[]
+  favourite     Boolean
+  MealPlan      MealPlan[]
+  ownerId       String
+  owner         User       @relation(fields: [ownerId], references: [id], name: "UserRecipes")
+}
+
+model MealPlan {
+  id       String   @id @default(uuid())
+  date     DateTime
+  mealType MealType
+  userId   String
+  recipeId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  recipe Recipe @relation(fields: [recipeId], references: [id])
+
+  @@unique([date, mealType, userId])
+}
+
+enum Goal {
+  MUSCLE_GAIN
+  WEIGHT_LOSS
+  WEIGHT_GAIN
+}
+
+enum ActivityLevel {
+  ACTIVE
+  MODERATE
+  LESS_ACTIVE
+}
+
+enum DatePlan {
+  TODAY
+  TOMORROW
+  DAY_AFTER_TOMORROW
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+}
+
+enum SkillLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
