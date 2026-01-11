@@ -26,8 +26,8 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   pages: {
-    signIn: '/login',
-    signOut: '/',
+    signIn: "/login",
+    signOut: "/",
   },
   providers: [
     GoogleProvider({
@@ -36,10 +36,10 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async redirect({baseUrl }) {
-    // Always redirect to dashboard after sign-in
-    return `${baseUrl}/dashboard`;
-  },
+    async redirect({ baseUrl }) {
+      // Always redirect to dashboard after sign-in
+      return `${baseUrl}/dashboard`;
+    },
 
     async signIn({ user }) {
       const existingUser = await prisma.user.findUnique({

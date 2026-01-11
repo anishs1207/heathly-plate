@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db"; // Make sure this path points correctly to your Prisma client
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   try {
@@ -10,13 +10,13 @@ export async function GET(req: NextRequest) {
     const page = parseInt(searchParams.get("page") || "1", 10);
     const limit = parseInt(searchParams.get("limit") || "6", 10);
     const search = searchParams.get("search")?.toLowerCase() || "";
-    const ownerId = searchParams.get('userId')
+    const ownerId = searchParams.get("userId");
 
     const skip = (page - 1) * limit;
 
-     if (!ownerId) {
-    return NextResponse.json({ error: 'Missing userId' }, { status: 400 });
-  }
+    if (!ownerId) {
+      return NextResponse.json({ error: "Missing userId" }, { status: 400 });
+    }
 
     // Count total recipes for pagination
     const totalCount = await prisma.recipe.count({
@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
       skip,
       take: limit,
       orderBy: {
-        date: "desc", // Make sure your Recipe model includes `date: DateTime @default(now())`
+        date: "desc",
       },
       select: {
         id: true,
@@ -65,7 +65,6 @@ export async function GET(req: NextRequest) {
       totalPages,
       currentPage: page,
     });
-
   } catch (error) {
     console.error("Error fetching paginated recipes:", error);
     return NextResponse.json(

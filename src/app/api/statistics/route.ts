@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
- const userId = req.headers.get('user-id');
+  const userId = req.headers.get("user-id");
 
   if (!userId) {
-    return NextResponse.json({ error: 'Missing userId' }, { status: 400 });
+    return NextResponse.json({ error: "Missing userId" }, { status: 400 });
   }
 
   try {
@@ -16,11 +16,11 @@ export async function GET(req: NextRequest) {
     for (let i = 0; i < 6; i++) {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
-      dates.push(date.toISOString().split('T')[0]); // format YYYY-MM-DD
+      dates.push(date.toISOString().split("T")[0]);
     }
 
-    const startDate = dates[0] + 'T00:00:00.000Z';
-    const endDate = dates[5] + 'T23:59:59.999Z';
+    const startDate = dates[0] + "T00:00:00.000Z";
+    const endDate = dates[5] + "T23:59:59.999Z";
 
     const plannedMeals = await prisma.mealPlan.findMany({
       where: {
@@ -43,7 +43,8 @@ export async function GET(req: NextRequest) {
       return acc + (meal.recipe?.calories_kcal || 0);
     }, 0);
 
-    const avgCalories = plannedMeals.length > 0 ? totalCalories / plannedMeals.length : 0;
+    const avgCalories =
+      plannedMeals.length > 0 ? totalCalories / plannedMeals.length : 0;
     const dailyCalories = Math.round(avgCalories * 3);
 
     // 6. Get count of saved recipes
@@ -55,10 +56,11 @@ export async function GET(req: NextRequest) {
       dailyCalories,
       savedRecipes,
     });
-
-   
   } catch (error) {
-    console.error('Error in dashboard metrics:', error);
-    return NextResponse.json({ error: 'Failed to fetch dashboard metrics' }, { status: 500 });
+    console.error("Error in dashboard metrics:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch dashboard metrics" },
+      { status: 500 }
+    );
   }
 }

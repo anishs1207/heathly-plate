@@ -28,7 +28,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <p className="text-gray-700 text-lg">Checking authentication...</p>
       </div>
     );
-
   }
 
   return (

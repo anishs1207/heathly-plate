@@ -4,8 +4,6 @@ import React, { useEffect } from 'react';
 import { Navbar, Footer, Hero, User, Features, CTA, FAQSection, UseCasesSection } from "./_components"
 
 const LandingPage: React.FC = () => {
-
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
