@@ -54,3 +54,6 @@ next-env.d.ts
 TODO.md
 
 .vercel
+
+*storybook.log
+storybook-static
