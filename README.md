@@ -23,3 +23,15 @@
 ![alt text](/images/image-7.png)
 
 ![alt text](/images/image-8.png)
+
+# Monitoring Dummy Dashboard:
+
+![alt text](/images/image-13.png)
+
+![alt text](/images/image-12.png)
+
+![alt text](/images/image-9.png)
+
+![alt text](/images/image-10.png)
+
+![alt text](/images/image-11.png)
